@@ -36,10 +36,10 @@
   header.masthead{
     background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
     color:var(--white);
-    padding:38px 28px 30px;
+    padding:38px 0 30px;
     border-bottom:3px solid var(--brass);
   }
-  header.masthead .inner{max-width:1180px;margin:0 auto;}
+  header.masthead .inner{max-width:1180px;margin:0 auto;padding:0 28px;}
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
     letter-spacing:.14em;
@@ -77,13 +77,9 @@
   main{padding:32px 28px 80px;}
 
   .grid{
-    display:grid;
-    grid-template-columns: minmax(320px, 420px) 1fr;
+    display:flex;
+    flex-direction:column;
     gap:26px;
-    align-items:start;
-  }
-  @media (max-width: 880px){
-    .grid{grid-template-columns:1fr;}
   }
 
   .panel{
@@ -139,6 +135,7 @@
   .live-note.warn{color:var(--rust);}
   input[type=date], input[type=number], select{
     width:100%;
+    max-width:380px;
     border:none;
     border-bottom:1.5px solid var(--brass);
     background:transparent;
@@ -147,6 +144,14 @@
     padding:6px 2px 7px;
     color:var(--ink);
     outline:none;
+  }
+  .field-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    column-gap:32px;
+  }
+  @media (max-width:640px){
+    .field-grid{grid-template-columns:1fr;}
   }
   input[type=date]:focus, input[type=number]:focus, select:focus{
     border-bottom-color:var(--navy);
@@ -291,7 +296,7 @@
   .disclaimer{
     max-width:1180px;
     margin:38px auto 0;
-    padding:20px 26px 34px;
+    padding:20px 28px 34px;
     color:#B9C3CC;
     font-size:12px;
     line-height:1.65;
@@ -331,49 +336,55 @@
         <h2><span class="ledger-num">1</span>Member</h2>
         <p class="hint">General LGERS employees only. Law Enforcement Officers have a different formula and eligibility structure — contact NC Retirement Systems directly for a LEO estimate.</p>
 
-        <label class="field">
-          <span class="lab">Date of birth</span>
-          <input type="date" id="dob">
-        </label>
+        <div class="field-grid">
+          <label class="field">
+            <span class="lab">Date of birth</span>
+            <input type="date" id="dob">
+          </label>
 
-        <label class="field" style="margin-bottom:0;">
-          <span class="lab">Start of LGERS-covered employment</span>
-          <span class="sub">First day of membership service (your original hire/enrollment date). Used with your separation date to calculate total creditable service.</span>
-          <input type="date" id="startDate">
-        </label>
+          <label class="field" style="margin-bottom:0;">
+            <span class="lab">Start of LGERS-covered employment</span>
+            <span class="sub">First day of membership service (your original hire/enrollment date). Used with your separation date to calculate total creditable service.</span>
+            <input type="date" id="startDate">
+          </label>
+        </div>
       </div>
 
       <div class="panel">
         <h2><span class="ledger-num">2</span>At separation from service</h2>
         <p class="hint">Freeze these as of your last day of LGERS-covered employment — service and average salary don't grow after you leave, even if you defer payments.</p>
 
-        <label class="field">
-          <span class="lab">Separation date</span>
-          <input type="date" id="sepDate">
-          <span class="live-note" id="ageAtSepLive"></span>
-        </label>
+        <div class="field-grid">
+          <label class="field">
+            <span class="lab">Separation date</span>
+            <input type="date" id="sepDate">
+            <span class="live-note" id="ageAtSepLive"></span>
+          </label>
 
-        <label class="field">
-          <span class="lab">Total creditable service at separation</span>
-          <span class="sub">Auto-calculated from your start and separation dates above. Adjust the numbers manually if your actual creditable service differs — unpaid leave breaks, purchased or transferred service, etc.</span>
-          <div class="row2">
-            <input type="number" id="svcYears" min="0" max="55" step="1" placeholder="Years">
-            <input type="number" id="svcMonths" min="0" max="11" step="1" placeholder="Months">
-          </div>
-          <span class="live-note" id="svcAutoNote"></span>
-        </label>
+          <label class="field">
+            <span class="lab">Average Final Compensation (AFC)</span>
+            <span class="sub">Average annual salary over your 4 highest-paid consecutive years</span>
+            <input type="number" id="afc" min="0" step="100" placeholder="$" value="85000">
+          </label>
+        </div>
 
-        <label class="field">
-          <span class="lab">Average Final Compensation (AFC)</span>
-          <span class="sub">Average annual salary over your 4 highest-paid consecutive years</span>
-          <input type="number" id="afc" min="0" step="100" placeholder="$" value="85000">
-        </label>
+        <div class="field-grid">
+          <label class="field">
+            <span class="lab">Total creditable service at separation</span>
+            <span class="sub">Auto-calculated from your start and separation dates above. Adjust the numbers manually if your actual creditable service differs — unpaid leave breaks, purchased or transferred service, etc.</span>
+            <div class="row2">
+              <input type="number" id="svcYears" min="0" max="55" step="1" placeholder="Years">
+              <input type="number" id="svcMonths" min="0" max="11" step="1" placeholder="Months">
+            </div>
+            <span class="live-note" id="svcAutoNote"></span>
+          </label>
 
-        <label class="field">
-          <span class="lab">Unused, unpaid sick leave (days)</span>
-          <span class="sub">1 month of service credit per 20 days. Only counts if payments start within 365 days of separation.</span>
-          <input type="number" id="sickDays" min="0" step="1" value="0">
-        </label>
+          <label class="field">
+            <span class="lab">Unused, unpaid sick leave (days)</span>
+            <span class="sub">1 month of service credit per 20 days. Only counts if payments start within 365 days of separation.</span>
+            <input type="number" id="sickDays" min="0" step="1" value="0">
+          </label>
+        </div>
       </div>
 
       <div class="panel">
@@ -386,14 +397,16 @@
         </div>
 
         <div class="commence-detail" id="deferredDetail">
-          <label class="field" style="margin-bottom:10px;">
-            <span class="lab">Commencement date</span>
-            <input type="date" id="commDate">
-          </label>
-          <label class="field" style="margin-bottom:0;">
-            <span class="lab">…or set by target age instead</span>
-            <input type="number" id="commAge" min="18" max="100" step="0.5" placeholder="e.g. 62">
-          </label>
+          <div class="field-grid">
+            <label class="field" style="margin-bottom:0;">
+              <span class="lab">Commencement date</span>
+              <input type="date" id="commDate">
+            </label>
+            <label class="field" style="margin-bottom:0;">
+              <span class="lab">…or set by target age instead</span>
+              <input type="number" id="commAge" min="18" max="100" step="0.5" placeholder="e.g. 62">
+            </label>
+          </div>
         </div>
 
       </div>
