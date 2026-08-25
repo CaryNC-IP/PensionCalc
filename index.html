@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LGERS Deferred Pension Estimator — Town of Cary</title>
+<title>LGERS Pension Estimator — Town of Cary</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -321,8 +321,8 @@
 <header class="masthead">
   <div class="inner">
     <p class="eyebrow">Local Governmental Employees' Retirement System &middot; LGERS</p>
-    <h1>Deferred Pension Estimator</h1>
-    <p class="sub">Models a Town of Cary LGERS benefit using the same accrual formula and early-retirement reduction tables as the state's ORBIT estimator — with one addition: you can separate from service on one date and defer the start of monthly payments to a later date or age, and see exactly what that costs or gains you.</p>
+    <h1>Pension Estimator</h1>
+    <p class="sub">Models a Town of Cary LGERS benefit using the same accrual formula and early-retirement reduction tables as the state's ORBIT estimator, however, in this estimator you can separate from service on one date and defer the start of monthly payments to a later date or age, and see exactly what that costs or gains you.</p>
     <div class="badge">General Employee &middot; LGERS &middot; 1.85% accrual factor</div>
   </div>
 </header>
@@ -486,7 +486,7 @@
 
       <div class="panel hidden" id="breakevenPanel">
         <h2>Deferral break-even</h2>
-        <p class="hint">Compares your chosen commencement date against an alternate one — cumulative payments over time, undiscounted (and present-valued, if you set a discount rate). Assumes benefits continue for life; use this only as a rough planning sketch, not a mortality projection.</p>
+        <p class="hint">Compares your chosen commencement date (the date on which you have chosen to start receipt of pension benefits) against an alternative date — cumulative benefits over time, undiscounted (and present-valued, if you set a discount rate). This helps you determine if deferring receipt of benefits makes sense — it's essentially a break-even calculation. Assumes benefits continue for life; use this only as a rough planning sketch, not a mortality projection.</p>
 
         <div class="row2" style="margin-bottom:14px;">
           <label class="field" style="margin-bottom:0;">
@@ -500,7 +500,7 @@
         </div>
         <label class="field">
           <span class="lab">Annual discount rate for present-value comparison (optional)</span>
-          <span class="sub">Leave at 0 for a simple nominal-dollar comparison</span>
+          <span class="sub">Leave at 0 for a simple nominal-dollar comparison. How to use this: it's roughly the annual return you think you could earn if you invested a dollar today instead of waiting to receive it as a pension payment. A higher rate makes money received sooner worth more in the comparison, which pushes the break-even age later and makes starting earlier look relatively better. Not sure what to enter? Leave it at 0% for the plain dollar total, or try 3–5% to reflect a modest, conservative investment return.</span>
           <input type="number" id="discountRate" min="0" max="15" step="0.1" value="0">
         </label>
 
