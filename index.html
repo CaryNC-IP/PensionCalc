@@ -384,7 +384,7 @@
         <div class="field-grid">
           <label class="field">
             <span class="lab">Total creditable service at separation</span>
-            <span class="sub">Auto-calculated from your start and separation dates above. Adjust the numbers manually if your actual creditable service differs — unpaid leave breaks, purchased or transferred service, etc.</span>
+            <span class="sub">Enter your start and separation dates above and this fills in automatically — or type your service directly here and the separation date above will be set to match. Adjust manually if your actual creditable service differs from straight calendar time — unpaid leave breaks, purchased or transferred service, etc.</span>
             <div class="row2">
               <input type="number" id="svcYears" min="0" max="55" step="1" placeholder="Years">
               <input type="number" id="svcMonths" min="0" max="11" step="1" placeholder="Months">
@@ -787,9 +787,35 @@
     note.textContent = `Calculated: ${y} yr ${m} mo, from ${fmtDate(start)} to ${fmtDate(sep)}.`;
   }
 
+  // ---- live: the reverse direction — type years/months of service, we set the separation date to match ----
+  function updateSepDateFromService(){
+    const start = parseDate($('startDate').value);
+    const note = $('svcAutoNote');
+    const yRaw = $('svcYears').value, mRaw = $('svcMonths').value;
+    const y = parseFloat(yRaw), m = parseFloat(mRaw);
+    if (!start){
+      note.classList.add('warn');
+      note.textContent = 'Enter a start of employment date above so a separation date can be set to match.';
+      return;
+    }
+    if (yRaw === '' && mRaw === ''){ note.textContent=''; note.classList.remove('warn'); return; }
+    const yy = isNaN(y) ? 0 : y;
+    const mm = isNaN(m) ? 0 : m;
+    if (yy < 0 || mm < 0){ return; }
+    const totalYears = yy + mm/12;
+    const newSep = addYears(start, totalYears);
+    $('sepDate').value = toISO(newSep);
+    note.classList.remove('warn');
+    note.textContent = `Separation date set to ${fmtDate(newSep)}, based on ${yy} yr ${mm} mo of service from ${fmtDate(start)}.`;
+    updateAgeAtSepLive();
+    updateBeneAgeLive();
+  }
+
   $('dob').addEventListener('input', updateAgeAtSepLive);
   $('sepDate').addEventListener('input', () => { updateAgeAtSepLive(); updateAutoService(); updateBeneAgeLive(); });
   $('startDate').addEventListener('input', updateAutoService);
+  $('svcYears').addEventListener('input', updateSepDateFromService);
+  $('svcMonths').addEventListener('input', updateSepDateFromService);
 
   const survivorRadios = document.querySelectorAll('input[name=survivorMode]');
   const survivorDetail = $('survivorDetail');
